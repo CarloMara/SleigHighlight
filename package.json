@@ -1,0 +1,25 @@
+{
+    "name": "sleighighlight",
+    "displayName": "SleigHighlight",
+    "description": "",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.38.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "sleigh",
+            "aliases": ["Sleigh", "sleigh"],
+            "extensions": [".sinc"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "sleigh",
+            "scopeName": "source.sleigh",
+            "path": "./syntaxes/Sleigh.xml"
+        }]
+    }
+}

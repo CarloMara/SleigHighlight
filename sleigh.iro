@@ -1,0 +1,375 @@
+#################################################################
+## Iro
+################################################################ 
+##
+## * Press Ctrl + '+'/'-' To Zoom in
+## * Press Ctrl + S to save and recalculate... 
+## * Documents are saved to web storage.
+## * Only one save slot supported.
+## * Matches cannot span lines.
+## * Unicode chars must be defined in \u0000 to \uffff format.
+## * All matches must be contained by a single group ( ... )
+## * Look behinds not permitted, (?<= or (?<!
+## * Look forwards are permitted (?= or (?!
+## * Constants are defined as __my_const = (......)
+## * The \= format allows unescaped regular expressions
+## * Constants referenced by match \= $${__my_const}
+## * Constants can reference other constants
+## * You are free to delete all the default scopes.
+## * Twitter : ainslec , Web: http://eeyo.io/iro
+##
+################################################################
+
+name                   = sleigh
+file_extensions []     = sinc;
+
+################################################################
+## Constants
+################################################################
+
+
+
+################################################################
+## Styles
+################################################################
+
+styles [] {
+
+.comment : style {
+   color                 = pink
+
+   italic                = true
+   ace_scope             = comment
+   textmate_scope        = punctuation.definition.comment
+   pygments_scope        = Comment
+}
+
+.keyword : style {
+   color     = light_green
+   ace_scope             = keyword
+   textmate_scope        = keyword
+   pygments_scope        = Keyword
+}
+.keyword_control : style {
+   color     = light_green
+   ace_scope             = keyword
+   textmate_scope        = keyword.control.module
+   pygments_scope        = Keyword
+}
+
+// .params : style {
+//    color                           = orange
+//    textmate_scope                  = variable.parameter
+   
+// }
+
+.numeric : style {
+   color                 = gold
+   ace_scope             = constant.numeric
+   textmate_scope        = constant.numeric
+   pygments_scope        = Number
+}
+
+.punctuation : style {
+   color     = red_2
+   ace_scope             = punctuation
+   textmate_scope        = punctuation
+   pygments_scope        = Punctuation
+}
+
+// .varname : style {
+//    color                 = brown
+//    ace_scope             = variable
+//    textmate_scope        = variable.this
+//    pygments_scope        = Generic
+// }
+
+.funname : style {
+   color                 = brown
+   ace_scope             = variable
+   textmate_scope        = entity.function
+   pygments_scope        = Generic
+}
+
+.primitive : style {
+   textmate_scope = storage.type.built-in.primitive.c
+}
+
+// .space_type : style {
+//    color                           = violet_red
+//    textmate_scope                  = constant.language
+   
+// }
+
+// .var_name : style {
+//    color                           = violet_red
+//    textmate_scope                  = variable.name
+   
+// }
+
+.assignment : style {
+   color                           = violet_red
+   textmate_scope                  = keyword.operator.assignment.c
+   
+}
+
+
+
+
+
+
+}
+
+#################################################
+## Parse contexts
+#################################################
+
+contexts [] {
+
+##############################################
+## Main Context - Entry point context
+##############################################
+
+main : context {
+
+
+   
+     
+   // : pattern {
+   //  regex \= (:)([a-zA-Z0-9]*)
+   //  styles [] = .punctuation, .varname;
+   //  }
+     
+   // : pattern {
+   //  regex \= ([a-zA-Z0-9]*)(:)
+   //  styles [] = .varname, .punctuation;
+   //  }
+   :include"quotes";
+   :include"comments";
+   :include"assigments";
+   :include"operators";
+   :include"brackets";
+   :include"types";
+   :include"export";
+   :include"goto";
+   :include"macro";
+   :include"define";
+   :include"attach";
+   :include"mnemonics";
+   :include"registers";
+   :include"cond_defines";
+   :include"hex";
+   // :include"number";
+
+    
+   // : pattern {
+   //  regex \= (macro)( [a-zA-Z0-9]*)
+   //  styles [] = .keyword, .funname;
+   //  }
+     
+
+     
+     
+   // :pattern {
+   //    regex \= ( *)([a-zA-Z0-9]*)
+   //    styles [] = .funname;
+   // }
+   
+
+      
+
+
+   }
+   
+   types : context {
+      : pattern{
+      regex \=(val)
+      styles[] = .primitive;
+      }
+      : pattern{
+      regex \=(local)
+      styles[] = .primitive;
+      }
+   }
+   
+   export : context {
+      : pattern{
+      regex \= (export)
+      styles[] = .keyword;
+      }
+   }
+   
+   goto : context{
+      : pattern {
+      regex \= (goto)
+      styles[] = .keyword;
+      }
+   }
+   
+   define : context{
+      : pattern {
+        regex \= (define *)
+        styles [] = .keyword;
+        }
+      : pattern {
+        regex \= (token)
+        styles [] = .keyword_control;
+        }
+      : pattern {
+        regex \= (register)
+        styles [] = .keyword_control;
+        }
+      : pattern {
+        regex \= (context )
+        styles [] = .keyword_control;
+        }
+   }
+   
+   attach : context{
+      : pattern {
+        regex \= (attach *)
+        styles [] = .keyword;
+        }
+      : pattern {
+        regex \= (variables)
+        styles [] = .keyword_control;
+        }
+      : pattern {
+        regex \= (names)
+        styles [] = .keyword_control;
+        }
+   }
+   
+   macro : context {
+      : pattern {
+        regex \= (macro )([a-zA-Z]+)
+        styles [] = .keyword, .keyword_control;
+      }
+   }
+   
+   brackets : context {
+      : inline_push {
+      regex         \= ([\(\{\[])
+      styles []      = .punctuation;
+         : pop {
+            regex      \= ([\)\}\]])
+            styles []   = .punctuation;
+         }
+         : pattern {
+            regex \= (,)
+            styles []   = .punctuation;
+         }
+         :include"main";
+         // : pattern {
+         //    regex \= ([^a-zA-Z]\d*)
+         //    styles []   = .numeric;
+         // }
+      }
+   }
+   
+   
+   quotes : context {
+   : inline_push {
+      regex         \= (")
+      styles []      = .punctuation;
+         : pop {
+            regex      \= (")
+            styles []   = .punctuation;
+         }
+         : pattern {
+            regex \= (,)
+            styles []   = .punctuation;
+         }
+         :include"quotes";
+         // : pattern {
+         //    regex \= ([^a-zA-Z]\d*)
+         //    styles []   = .numeric;
+         // }
+      }
+   }
+   
+   
+   cond_defines : context {
+      : pattern {
+       regex \= (\@if)
+       styles [] = .keyword;
+       }
+        
+      : pattern {
+       regex \= (\@elif)
+       styles [] = .keyword;
+       }
+      : pattern {
+       regex \= (\@endif)
+       styles [] = .keyword;
+       }
+   }
+   
+   assigments : context {
+      : pattern {
+        regex \= (is )
+        styles [] = .keyword;
+        }
+      : pattern {
+         regex \= (=)
+         styles [] = .assignment;
+      }
+   }
+   
+   operators : context {
+      : pattern {
+      regex \= ([&~!+-])
+      styles [] = .keyword;
+      }
+      : pattern {
+      regex \= (>=)
+      styles [] = .keyword;
+      }
+      : pattern {
+      regex \= (<<|>>)
+      styles [] = .keyword;
+      }
+   }
+   
+   comments : context {
+      : pattern {
+     regex \= (#.*)
+     styles [] = .comment;
+     }
+   }
+   
+   hex : context{
+      : pattern {
+      regex \= (0x[a-fA-F0-9]*)
+      styles [] = .numeric;
+      }
+   }
+   
+   mnemonics : context{
+      : pattern {
+      regex \= (:[A-Z]+)
+      styles [] = .funname;
+      }
+   }
+   
+   registers : context{
+      : pattern {
+      regex \= ([A-Za-z0-9]*:)
+      styles [] = .funname;
+      }
+   }
+   
+   number : context{
+      : pattern {
+      regex \= ([0-9]*)
+      styles [] = .numeric;
+      }
+   }
+   
+}
+
+
+
+
+   
+
