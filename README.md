@@ -1,6 +1,18 @@
 # SleigHighlight 
 
-Language highlighting for GHIDRA processor definition language Sleigh, because writing processor specification is tedious. So tedious that life might lose colors.
+Language highlighting for GHIDRA processor definition language Sleigh, because writing processor specification is tedious. So tedious that life might lose colors, everything becomes boring, you lose focus and at some point you'll go have a sandwich instead of writing some sick tools to reverse engineer  stuff.
+
+Say no more, this is the tremendous difference that this extension makes.
+
+ ## BORING
+
+![boring](.images/boring.png)
+
+## NON BORING
+
+![non_boring](.images/non_boring.png)
+
+
 
 Install this as you would do with any normal VScode extension. Nothing difficult.
 
