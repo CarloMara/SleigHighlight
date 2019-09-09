@@ -2,9 +2,11 @@
     "name": "sleighighlight",
     "displayName": "SleigHighlight",
     "description": "",
-    "version": "0.0.1",
+    "version": "0.0.2",
+    "publisher": "CarloMaragno",
+    "repository": "https://github.com/CarloMara/SleigHighlight",
     "engines": {
-        "vscode": "^1.38.0"
+        "vscode": "^1.37.0"
     },
     "categories": [
         "Programming Languages"
@@ -13,7 +15,7 @@
         "languages": [{
             "id": "sleigh",
             "aliases": ["Sleigh", "sleigh"],
-            "extensions": [".sinc"],
+            "extensions": [".si nc"],
             "configuration": "./language-configuration.json"
         }],
         "grammars": [{
