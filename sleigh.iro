@@ -91,6 +91,14 @@ styles [] {
    pygments_scope        = Generic
 }
 
+.table : style {
+   color                 = brown
+   ace_scope             = variable
+   textmate_scope        = keyword.other.unit
+   pygments_scope        = Generic
+}
+
+
 .primitive : style {
    textmate_scope = storage.type.built-in.primitive.c
 }
@@ -355,7 +363,7 @@ main : context {
    registers : context{
       : pattern {
       regex \= ([A-Za-z0-9]*:)
-      styles [] = .funname;
+      styles [] = .table;
       }
    }
    
@@ -367,9 +375,3 @@ main : context {
    }
    
 }
-
-
-
-
-   
-
