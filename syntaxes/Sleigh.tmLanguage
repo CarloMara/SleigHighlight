@@ -401,7 +401,7 @@
           <key>match</key>
           <string>([A-Za-z0-9]*:)</string>
           <key>name</key>
-          <string>entity.function.sleigh</string>
+          <string>keyword.other.unit.sleigh</string>
         </dict>
        </array>
     </dict>
