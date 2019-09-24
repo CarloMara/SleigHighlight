@@ -21,7 +21,7 @@
         "grammars": [{
             "language": "sleigh",
             "scopeName": "source.sleigh",
-            "path": "./syntaxes/Sleigh.xml"
+            "path": "./syntaxes/Sleigh.tmLanguage"
         }]
     }
 }
