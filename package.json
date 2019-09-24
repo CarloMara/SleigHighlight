@@ -15,7 +15,7 @@
         "languages": [{
             "id": "sleigh",
             "aliases": ["Sleigh", "sleigh"],
-            "extensions": [".si nc"],
+            "extensions": [".sinc", ".slaspec"],
             "configuration": "./language-configuration.json"
         }],
         "grammars": [{
