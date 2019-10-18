@@ -21,7 +21,7 @@
 ################################################################
 
 name                   = sleigh
-file_extensions []     = sinc;
+file_extensions []     = sinc, slaspec;
 
 ################################################################
 ## Constants
@@ -159,9 +159,11 @@ main : context {
    :include"brackets";
    :include"types";
    :include"export";
-   :include"goto";
+   :include"branching";
+   :include"build";
    :include"macro";
    :include"define";
+   :include"token";
    :include"attach";
    :include"mnemonics";
    :include"registers";
@@ -191,66 +193,132 @@ main : context {
    
    types : context {
       : pattern{
-      regex \=(val)
+      regex \=(\bval\b)
       styles[] = .primitive;
       }
       : pattern{
-      regex \=(local)
+      regex \=(\blocal\b)
       styles[] = .primitive;
       }
    }
    
    export : context {
       : pattern{
-      regex \= (export)
+      regex \= (\bexport\b)
       styles[] = .keyword;
       }
    }
    
-   goto : context{
+   branching : context {
       : pattern {
-      regex \= (goto)
+      regex \= (\bgoto\b)
+      styles[] = .keyword;
+      }
+      : pattern {
+      regex \= (\bcall\b)
+      styles[] = .keyword;
+      }
+      : pattern {
+      regex \= (\breturn\b)
+      styles[] = .keyword;
+      }
+   }
+
+   build : context{
+      : pattern {
+      regex \= (\bbuild\b)
       styles[] = .keyword;
       }
    }
    
    define : context{
       : pattern {
-        regex \= (define *)
+        regex \= (\bdefine\b *)
         styles [] = .keyword;
         }
       : pattern {
-        regex \= (token)
+        regex \= (\blocal\b *)
+        styles [] = .keyword;
+        }
+      : pattern {
+        regex \= (\bif\b)
+        styles [] = .keyword;
+        }
+      : pattern {
+        regex \= (\binstruction\b)
+        styles [] = .keyword;
+        }
+      : pattern {
+        regex \= (\bconst\b)
+        styles [] = .keyword;
+        }
+      : pattern {
+        regex \= (\bunique\b)
+        styles [] = .keyword;
+        }
+      : pattern {
+        regex \= (\binst_start\b)
+        styles [] = .keyword;
+        }
+      : pattern {
+        regex \= (\binst_next\b)
+        styles [] = .keyword;
+        }
+      : pattern {
+        regex \= (\bepsilon\b)
+        styles [] = .keyword;
+        }
+      : pattern {
+        regex \= (\bregister\b)
         styles [] = .keyword_control;
         }
       : pattern {
-        regex \= (register)
+        regex \= (\bcontext\b)
         styles [] = .keyword_control;
         }
       : pattern {
-        regex \= (context )
+        regex \= (\bpcodeop\b)
         styles [] = .keyword_control;
+        }
+   }
+
+   token : context{
+      : pattern {
+        regex \= (\btoken\b)
+        styles [] = .keyword_control;
+        }
+      : pattern {
+         regex \= (\bsigned\b)
+         styles [] = .keyword;
+        }
+      : pattern {
+         regex \= (\bhex\b)
+         styles [] = .keyword;
+        }
+      : pattern {
+         regex \= (\bdec\b)
+         styles [] = .keyword;
         }
    }
    
    attach : context{
       : pattern {
-        regex \= (attach *)
+        regex \= (\battach\b *)
         styles [] = .keyword;
         }
       : pattern {
-        regex \= (variables)
+        regex \= (\bvariables\b)
         styles [] = .keyword_control;
         }
       : pattern {
-        regex \= (names)
+        regex \= (\bnames\b)
         styles [] = .keyword_control;
         }
    }
    
    macro : context {
       : pattern {
-        regex \= (macro )([a-zA-Z]+)
+        regex \= (\bmacro\b)([a-zA-Z]+)
         styles [] = .keyword, .keyword_control;
       }
    }
@@ -274,7 +342,6 @@ main : context {
          // }
       }
    }
-   
    
    quotes : context {
    : inline_push {
@@ -315,26 +382,42 @@ main : context {
    
    assigments : context {
       : pattern {
-        regex \= (is )
+        regex \= (\bis\b)
         styles [] = .keyword;
         }
       : pattern {
-         regex \= (=)
+         regex \= (\b=\b)
          styles [] = .assignment;
       }
    }
    
    operators : context {
       : pattern {
-      regex \= ([&~!+-])
+      regex \= (f?[!=]=)
       styles [] = .keyword;
       }
       : pattern {
-      regex \= (>=)
+      regex \= ([&/|/^]{1,2})
       styles [] = .keyword;
       }
       : pattern {
-      regex \= (<<|>>)
+      regex \= ([~!])
+      styles [] = .keyword;
+      }
+      : pattern {
+      regex \= (f?[/+-/*])
+      styles [] = .keyword;
+      }
+      : pattern {
+      regex \= ([fs]?[//%])
+      styles [] = .keyword;
+      }
+      : pattern {
+      regex \= ([fs]?[<>]=?)
+      styles [] = .keyword;
+      }
+      : pattern {
+      regex \= (s?<{2}|s?>{2}$)
       styles [] = .keyword;
       }
    }
@@ -355,21 +438,21 @@ main : context {
    
    mnemonics : context{
       : pattern {
-      regex \= (:[A-Z]+)
+      regex \= (:\D\S*)
       styles [] = .funname;
       }
    }
    
    registers : context{
       : pattern {
-      regex \= ([A-Za-z0-9]*:)
+      regex \= ([A-Za-z0-9_]*:?:\D)
       styles [] = .table;
       }
    }
    
    number : context{
       : pattern {
-      regex \= ([0-9]*)
+      regex \= (\d*)
       styles [] = .numeric;
       }
    }

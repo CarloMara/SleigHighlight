@@ -6,6 +6,7 @@
   <key>fileTypes</key>
   <array> 
     <string>sinc</string>
+    <string>slaspec</string>
    </array>
   <key>name</key>
   <string>sleigh</string>
@@ -56,7 +57,11 @@
         </dict>
         <dict>
           <key>include</key>
-          <string>#goto</string>
+          <string>#branching</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#build</string>
         </dict>
         <dict>
           <key>include</key>
@@ -65,6 +70,10 @@
         <dict>
           <key>include</key>
           <string>#define</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#token</string>
         </dict>
         <dict>
           <key>include</key>
@@ -94,13 +103,13 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(is )</string>
+          <string>(\bis\b)</string>
           <key>name</key>
           <string>keyword.sleigh</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>(=)</string>
+          <string>(\b=\b)</string>
           <key>name</key>
           <string>keyword.operator.assignment.c.sleigh</string>
         </dict>
@@ -112,19 +121,19 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(attach *)</string>
+          <string>(\battach\b *)</string>
           <key>name</key>
           <string>keyword.sleigh</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>(variables)</string>
+          <string>(\bvariables\b)</string>
           <key>name</key>
           <string>keyword.control.module.sleigh</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>(names)</string>
+          <string>(\bnames\b)</string>
           <key>name</key>
           <string>keyword.control.module.sleigh</string>
         </dict>
@@ -181,6 +190,42 @@
         </dict>
        </array>
     </dict>
+    <key>branching</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+        <dict>
+          <key>match</key>
+          <string>(\bgoto\b)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\bcall\b)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\breturn\b)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+       </array>
+    </dict>
+    <key>build</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+        <dict>
+          <key>match</key>
+          <string>(\bbuild\b)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+       </array>
+    </dict>
     <key>comments</key>
     <dict>
       <key>patterns</key>
@@ -223,25 +268,73 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(define *)</string>
+          <string>(\bdefine\b *)</string>
           <key>name</key>
           <string>keyword.sleigh</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>(token)</string>
+          <string>(\blocal\b *)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\bif\b)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\binstruction\b)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\bconst\b)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\bunique\b)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\binst_start\b)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\binst_next\b)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\bepsilon\b)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\bregister\b)</string>
           <key>name</key>
           <string>keyword.control.module.sleigh</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>(register)</string>
+          <string>(\bcontext\b)</string>
           <key>name</key>
           <string>keyword.control.module.sleigh</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>(context )</string>
+          <string>(\bpcodeop\b)</string>
           <key>name</key>
           <string>keyword.control.module.sleigh</string>
         </dict>
@@ -253,19 +346,7 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(export)</string>
-          <key>name</key>
-          <string>keyword.sleigh</string>
-        </dict>
-       </array>
-    </dict>
-    <key>goto</key>
-    <dict>
-      <key>patterns</key>
-      <array> 
-        <dict>
-          <key>match</key>
-          <string>(goto)</string>
+          <string>(\bexport\b)</string>
           <key>name</key>
           <string>keyword.sleigh</string>
         </dict>
@@ -289,7 +370,7 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(macro )([a-zA-Z]+)</string>
+          <string>(\bmacro\b)([a-zA-Z]+)</string>
           <key>captures</key>
           <dict>
             <key>1</key>
@@ -312,7 +393,7 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(:[A-Z]+)</string>
+          <string>(:\D\S*)</string>
           <key>name</key>
           <string>entity.function.sleigh</string>
         </dict>
@@ -324,19 +405,43 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>([\x{0026}\x{007e}\x{0021}\x{002b}-])</string>
+          <string>(f?[\x{0021}\x{003d}]=)</string>
           <key>name</key>
           <string>keyword.sleigh</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>(&gt;=)</string>
+          <string>([\x{0026}\x{002f}\x{007c}\x{002f}\x{005e}]{1,2})</string>
           <key>name</key>
           <string>keyword.sleigh</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>(&lt;&lt;|&gt;&gt;)</string>
+          <string>([\x{007e}\x{0021}])</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(f?[\x{002f}\x{002b}-\x{002f}\x{002a}])</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>([fs]?[\x{002f}\x{002f}\x{0025}])</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>([fs]?[\x{003c}\x{003e}]=?)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(s?&lt;{2}|s?&gt;{2}$)</string>
           <key>name</key>
           <string>keyword.sleigh</string>
         </dict>
@@ -399,9 +504,39 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>([A-Za-z0-9]*:)</string>
+          <string>([A-Za-z0-9_]*:?:\D)</string>
           <key>name</key>
           <string>keyword.other.unit.sleigh</string>
+        </dict>
+       </array>
+    </dict>
+    <key>token</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+        <dict>
+          <key>match</key>
+          <string>(\btoken\b)</string>
+          <key>name</key>
+          <string>keyword.control.module.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\bsigned\b)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\bhex\b)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\bdec\b)</string>
+          <key>name</key>
+          <string>keyword.sleigh</string>
         </dict>
        </array>
     </dict>
@@ -411,13 +546,13 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(val)</string>
+          <string>(\bval\b)</string>
           <key>name</key>
           <string>storage.type.built-in.primitive.c.sleigh</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>(local)</string>
+          <string>(\blocal\b)</string>
           <key>name</key>
           <string>storage.type.built-in.primitive.c.sleigh</string>
         </dict>
